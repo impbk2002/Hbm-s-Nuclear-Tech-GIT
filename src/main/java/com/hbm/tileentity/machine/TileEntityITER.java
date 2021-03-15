@@ -102,9 +102,9 @@ public class TileEntityITER extends TileEntityMachineBase implements IConsumer, 
 				}
 				
 				if(plasma.getFill() > 0 && this.getShield() != 0) {
-					
-					ItemFusionShield.setShieldDamage(slots[3], ItemFusionShield.getShieldDamage(slots[3]) + 1);
-					
+					if(slots[3].getItem() != ModItems.fusion_shield_cosmic) {
+						ItemFusionShield.setShieldDamage(slots[3], ItemFusionShield.getShieldDamage(slots[3]) + 1);
+					}
 					if(ItemFusionShield.getShieldDamage(slots[3]) > ((ItemFusionShield)slots[3].getItem()).maxDamage) {
 						slots[3] = null;
 						worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "hbm:block.shutdown", 5F, 1F);
@@ -156,6 +156,8 @@ public class TileEntityITER extends TileEntityMachineBase implements IConsumer, 
 				data.setInteger("blanket", 3);
 			} else if(slots[3].getItem() == ModItems.fusion_shield_vaporwave) {
 				data.setInteger("blanket", 4);
+			} else if(slots[3].getItem() == ModItems.fusion_shield_cosmic) {
+				data.setInteger("blanket", 5);
 			}
 			
 			this.networkPack(data, 250);

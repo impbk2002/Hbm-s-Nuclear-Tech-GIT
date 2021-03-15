@@ -35,6 +35,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
+import scala.Int;
 
 public class ModItems {
 	
@@ -628,6 +629,7 @@ public class ModItems {
 	public static Item fusion_shield_desh;
 	public static Item fusion_shield_chlorophyte;
 	public static Item fusion_shield_vaporwave;
+	public static Item fusion_shield_cosmic;
 	
 	public static Item cell_empty;
 	public static Item cell_uf6;
@@ -3751,6 +3753,7 @@ public class ModItems {
 		fusion_shield_desh = new ItemFusionShield(60 * 60 * 60 * 10, 4500).setUnlocalizedName("fusion_shield_desh").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":fusion_shield_desh");
 		fusion_shield_chlorophyte = new ItemFusionShield(60 * 60 * 60 * 15, 9000).setUnlocalizedName("fusion_shield_chlorophyte").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":fusion_shield_chlorophyte");
 		fusion_shield_vaporwave = new ItemFusionShield(60 * 60 * 60 * 10, 1916169).setUnlocalizedName("fusion_shield_vaporwave").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":fusion_shield_vaporwave");
+		fusion_shield_cosmic = new ItemFusionShield(Long.MAX_VALUE, Int.MaxValue()).setUnlocalizedName("fusion_shield_cosmic").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":fusion_shield_cosmic");
 
 		upgrade_template = new ItemCustomLore().setUnlocalizedName("upgrade_template").setMaxStackSize(1).setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":upgrade_template");
 		upgrade_speed_1 = new ItemMachineUpgrade().setUnlocalizedName("upgrade_speed_1").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":upgrade_speed_1");
@@ -5463,7 +5466,8 @@ public class ModItems {
 		GameRegistry.registerItem(fusion_shield_desh, fusion_shield_desh.getUnlocalizedName());
 		GameRegistry.registerItem(fusion_shield_chlorophyte, fusion_shield_chlorophyte.getUnlocalizedName());
 		GameRegistry.registerItem(fusion_shield_vaporwave, fusion_shield_vaporwave.getUnlocalizedName());
-		
+		GameRegistry.registerItem(fusion_shield_cosmic, fusion_shield_cosmic.getUnlocalizedName());
+
 		//Fuel Rods
 		GameRegistry.registerItem(rod_empty, rod_empty.getUnlocalizedName());
 		GameRegistry.registerItem(rod_dual_empty, rod_dual_empty.getUnlocalizedName());

@@ -2,6 +2,8 @@ package com.hbm.items.special;
 
 import java.util.List;
 
+import com.hbm.items.ModItems;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -34,9 +36,11 @@ public class ItemFusionShield extends Item {
 		
 		long damage = getShieldDamage(stack);
 		int percent = (int) ((maxDamage - damage) * 100 / maxDamage);
-
-		list.add("Durability: " + (maxDamage - damage) + "/" + maxDamage + " (" + percent + "%)");
-		
+    	if(stack.getItem() == ModItems.fusion_shield_cosmic) {
+    		list.add("Indestructible");
+    	}else {
+    		list.add("Durability: " + (maxDamage - damage) + "/" + maxDamage + " (" + percent + "%)");
+    	}
 		list.add("Melting point: " + EnumChatFormatting.RED + "" + maxTemp + "°C");
 	}
 	
@@ -56,6 +60,9 @@ public class ItemFusionShield extends Item {
     
     public boolean showDurabilityBar(ItemStack stack)
     {
+    	if(stack.getItem() == ModItems.fusion_shield_cosmic) {
+    		return false;
+    	}
         return getDurabilityForDisplay(stack) != 0;
     }
 
