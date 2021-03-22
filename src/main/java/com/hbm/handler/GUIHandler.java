@@ -8,11 +8,7 @@ import com.hbm.inventory.inv.InventoryLeadBox;
 import com.hbm.items.ModItems;
 import com.hbm.tileentity.bomb.*;
 import com.hbm.tileentity.machine.*;
-import com.hbm.tileentity.turret.TileEntityTurretChekhov;
-import com.hbm.tileentity.turret.TileEntityTurretFriendly;
-import com.hbm.tileentity.turret.TileEntityTurretJeremy;
-import com.hbm.tileentity.turret.TileEntityTurretRichard;
-import com.hbm.tileentity.turret.TileEntityTurretTauon;
+import com.hbm.tileentity.turret.*;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -767,6 +763,20 @@ public class GUIHandler implements IGuiHandler {
 			}
 			return null;
 		}
+
+		case ModBlocks.guiID_howard: {
+			if(entity instanceof TileEntityTurretHoward) {
+				return new ContainerTurretBase(player.inventory, (TileEntityTurretHoward) entity);
+			}
+			return null;
+		}
+
+		case ModBlocks.guiID_silex: {
+			if(entity instanceof TileEntitySILEX) {
+				return new ContainerSILEX(player.inventory, (TileEntitySILEX) entity);
+			}
+			return null;
+		}
 		}
 		// NON-TE CONTAINERS
 
@@ -1518,6 +1528,20 @@ public class GUIHandler implements IGuiHandler {
 			}
 			return null;
 		}
+
+		case ModBlocks.guiID_howard: {
+			if(entity instanceof TileEntityTurretHoward) {
+				return new GUITurretHoward(player.inventory, (TileEntityTurretHoward) entity);
+			}
+			return null;
+		}
+
+		case ModBlocks.guiID_silex: {
+			if(entity instanceof TileEntitySILEX) {
+				return new GUISILEX(player.inventory, (TileEntitySILEX) entity);
+			}
+			return null;
+		}
 		}
 		// ITEM GUIS
 
@@ -1537,6 +1561,8 @@ public class GUIHandler implements IGuiHandler {
 				return new GUIScreenBobmazon(player, BobmazonOfferFactory.getOffers(player.getHeldItem()));
 		case ModItems.guiID_item_book:
 			return new GUIBook(player.inventory);
+		case ModItems.guiID_item_guide:
+			return new GUIIScreenGuide(player);
 		}
 		return null;
 	}
