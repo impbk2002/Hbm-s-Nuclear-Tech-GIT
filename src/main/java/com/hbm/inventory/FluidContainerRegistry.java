@@ -12,11 +12,11 @@ public class FluidContainerRegistry {
 	//TODO: somehow incorporate hashmaps into this
 	static List<FluidContainer> allContainers = new ArrayList<FluidContainer>();
 	
-	public static void registerContainer(FluidContainer con) {
+	public static final void registerContainer(FluidContainer con) {
 		allContainers.add(con);
 	}
 	
-	public static int getFluidContent(ItemStack stack, FluidType type) {
+	public static final int getFluidContent(ItemStack stack, FluidType type) {
 		
 		if(stack == null)
 			return 0;
@@ -34,7 +34,7 @@ public class FluidContainerRegistry {
 		return 0;
 	}
 	
-	public static FluidType getFluidType(ItemStack stack) {
+	public static final FluidType getFluidType(ItemStack stack) {
 		
 		if(stack == null)
 			return FluidType.NONE;
@@ -51,7 +51,7 @@ public class FluidContainerRegistry {
 		return FluidType.NONE;
 	}
 	
-	public static ItemStack getFullContainer(ItemStack stack, FluidType type) {
+	public static final ItemStack getFullContainer(ItemStack stack, FluidType type) {
 		if(stack == null)
 			return null;
 		
@@ -68,7 +68,7 @@ public class FluidContainerRegistry {
 		return null;
 	}
 	
-	public static ItemStack getEmptyContainer(ItemStack stack) {
+	public static final ItemStack getEmptyContainer(ItemStack stack) {
 		if(stack == null)
 			return null;
 		

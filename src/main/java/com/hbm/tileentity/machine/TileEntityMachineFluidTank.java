@@ -8,12 +8,17 @@ import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IFluidSource;
+import com.hbm.inventory.FluidContainerRegistry;
 import com.hbm.inventory.FluidTank;
+import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemFluidIdentifier;
+import com.hbm.items.machine.ItemFluidTank;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
@@ -179,4 +184,43 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 		nbt.setShort("mode", mode);
 		tank.writeToNBT(nbt, "tank");
 	}
+	
+	@Override
+	public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
+		if(slot == 0 && itemStack.getItem() instanceof ItemFluidIdentifier) {
+			return true;
+		}
+		FluidType tag = FluidContainerRegistry.getFluidType(itemStack);
+		if(slot == 2 && tag != FluidType.NONE) {
+			return this.tank.getTankType()==tag || this.tank.getTankType()==FluidType.NONE;
+		}
+		if(slot == 4) {
+			return FluidContainerRegistry.getFullContainer(itemStack, this.tank.getTankType())!=null;
+		}
+		return false;
+	}
+	
+	@Override
+	public int[] getAccessibleSlotsFromSide(int side) {
+		return new int[] { 0, 1, 2, 3, 4, 5};
+	}
+	
+	@Override
+	public boolean canExtractItem(int slot, ItemStack items, int side) {
+		if(slot == 1 || slot == 3 || slot == 5) {
+			//return side != 4;
+			return true;
+		}
+		return super.canExtractItem(slot, items, side);
+	}
+	
+	@Override
+    public boolean canInsertItem(int slot, ItemStack items, int side) {
+		if(slot == 0 || slot == 2 || slot == 4) {
+			//return side != 0;
+			return true;
+		}
+		return super.canInsertItem(slot, items, side);
+	}
+
 }
