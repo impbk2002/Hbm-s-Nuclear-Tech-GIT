@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.hbm.config.WeaponConfig;
 import com.hbm.entity.effect.EntityRagingVortex;
-import com.hbm.extprop.HbmLivingProps;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.I18nUtil;
 
@@ -15,7 +14,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
-public class ItemDigamma extends ItemRadioactive {
+public class ItemDigamma extends ItemHazard {
 
 	int digamma;
 
@@ -29,7 +28,6 @@ public class ItemDigamma extends ItemRadioactive {
 		super.onUpdate(stack, world, entity, i, b);
 
 		if(entity instanceof EntityPlayer) {
-
 			EntityPlayer player = (EntityPlayer) entity;
 			ContaminationUtil.applyDigammaData(player, 1F / ((float) digamma));
 		}
@@ -44,7 +42,7 @@ public class ItemDigamma extends ItemRadioactive {
 		list.add("");
 		super.addInformation(stack, player, list, bool);
 
-		float d = ((int) ((1000F / digamma) * 10F)) / 10F;
+		float d = ((int) ((1000F / digamma) * 200F)) / 10F;
 
 		list.add(EnumChatFormatting.RED + "[" + I18nUtil.resolveKey("trait.digamma") + "]");
 		list.add(EnumChatFormatting.DARK_RED + "" + d + "mDRX/s");
