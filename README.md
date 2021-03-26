@@ -7,9 +7,12 @@ For a 1.12 fork, check this link: https://github.com/Drillgon200/Hbm-s-Nuclear-T
 ## Installation Instructions
 
 Tired of waiting until the next version comes out? Here is a tutorial on how to compile the very newest version yourself:
+ 
 In this Fork, if you want to make changes by yourself with IDE you just Run `gradlew eclipse` on windows or `./gradlew eclipse` directly in the terminal where you extract these files.
+ 
 If you want to build mod, then run `gradlew build` or `./gradlew build` and check `/build/libs/`.
-You don't have to download forge 1.7.10 src or need to run `setupDecompWorkspace` or need to download extra files for lib, in this Fork.
+ 
+You don't have to download forge 1.7.10 src or need to run `setupDecompWorkspace` or need to download extra files for lib, at least in this Fork.
 
 ## Installation Instructions for a non-standard Workspace
 
