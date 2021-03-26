@@ -70,11 +70,6 @@ public class ItemBlockLore extends ItemBlock {
 			list.add("Come on, get a derrick you doofus.");
 		}
 		
-		if(this.field_150939_a == ModBlocks.block_lithium) {
-			list.add("It's not my fault you didn't pay");
-			list.add("attention in chemistry class.");
-		}
-		
 		if(this.field_150939_a == ModBlocks.machine_mining_laser) {
 			list.add("3x3x3 Multiblock");
 			list.add("Only placeable on a ceiling.");
@@ -107,21 +102,17 @@ public class ItemBlockLore extends ItemBlock {
 		}
 	}
 
-    @Override
+	@Override
 	public EnumRarity getRarity(ItemStack stack) {
 
-		if(this.field_150939_a == ModBlocks.ore_schrabidium || this.field_150939_a == ModBlocks.ore_nether_schrabidium ||
-				this.field_150939_a == ModBlocks.block_schrabidium || this.field_150939_a == ModBlocks.block_schrabidium_cluster ||
-				this.field_150939_a == ModBlocks.block_schrabidium_fuel || this.field_150939_a == ModBlocks.block_solinium ||
-				this.field_150939_a == ModBlocks.gravel_diamond || this.field_150939_a == ModBlocks.ore_gneiss_schrabidium ||
-				this.field_150939_a == ModBlocks.block_schraranium || this.field_150939_a == ModBlocks.block_schrabidate)
+		if(this.field_150939_a == ModBlocks.gravel_diamond)
 			return EnumRarity.rare;
 		
 		if(this.field_150939_a == ModBlocks.block_euphemium || this.field_150939_a == ModBlocks.block_euphemium_cluster ||
 				this.field_150939_a == ModBlocks.plasma || this.field_150939_a == ModBlocks.fwatz_plasma)
 			return EnumRarity.epic;
-    	
-    	return EnumRarity.common;
-    }
+
+		return EnumRarity.common;
+	}
 
 }
