@@ -1,6 +1,7 @@
 package com.hbm.items;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.entity.grenade.*;
 import com.hbm.handler.BucketHandler;
 import com.hbm.handler.ToolAbility;
 import com.hbm.handler.ToolAbility.LuckAbility;
@@ -21,7 +22,11 @@ import com.hbm.main.MainRegistry;
 import com.hbm.potion.HbmPotion;
 
 import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraft.block.BlockDispenser;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.dispenser.BehaviorProjectileDispense;
+import net.minecraft.dispenser.IPosition;
+import net.minecraft.entity.IProjectile;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
@@ -32,6 +37,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fluids.FluidContainerRegistry;
@@ -44,6 +50,7 @@ public class ModItems {
 	{
 		initializeItem();
 		registerItem();
+		registerDispenser();
 	}
 	
 	public static Item redstone_sword;
@@ -7066,5 +7073,260 @@ public class ModItems {
 		GameRegistry.registerItem(digamma_up_on_top, digamma_up_on_top.getUnlocalizedName());
 		GameRegistry.registerItem(mysteryshovel, mysteryshovel.getUnlocalizedName());
 		GameRegistry.registerItem(memory, memory.getUnlocalizedName());
+	}
+	
+	private static void registerDispenser() {
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_generic, new BehaviorProjectileDispense() {
+
+			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
+				return new EntityGrenadeGeneric(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
+			}
+		});
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_strong, new BehaviorProjectileDispense() {
+
+			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
+				return new EntityGrenadeStrong(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
+			}
+		});
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_frag, new BehaviorProjectileDispense() {
+
+			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
+				return new EntityGrenadeFrag(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
+			}
+		});
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_fire, new BehaviorProjectileDispense() {
+
+			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
+				return new EntityGrenadeFire(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
+			}
+		});
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_cluster, new BehaviorProjectileDispense() {
+
+			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
+				return new EntityGrenadeCluster(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
+			}
+		});
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_flare, new BehaviorProjectileDispense() {
+
+			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
+				return new EntityGrenadeFlare(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
+			}
+		});
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_electric, new BehaviorProjectileDispense() {
+
+			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
+				return new EntityGrenadeElectric(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
+			}
+		});
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_poison, new BehaviorProjectileDispense() {
+
+			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
+				return new EntityGrenadePoison(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
+			}
+		});
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_gas, new BehaviorProjectileDispense() {
+
+			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
+				return new EntityGrenadeGas(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
+			}
+		});
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_schrabidium, new BehaviorProjectileDispense() {
+
+			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
+				return new EntityGrenadeSchrabidium(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
+			}
+		});
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_nuke, new BehaviorProjectileDispense() {
+
+			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
+				return new EntityGrenadeNuke(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
+			}
+		});
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_nuclear, new BehaviorProjectileDispense() {
+
+			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
+				return new EntityGrenadeNuclear(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
+			}
+		});
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_pulse, new BehaviorProjectileDispense() {
+
+			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
+				return new EntityGrenadePulse(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
+			}
+		});
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_plasma, new BehaviorProjectileDispense() {
+
+			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
+				return new EntityGrenadePlasma(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
+			}
+		});
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_tau, new BehaviorProjectileDispense() {
+
+			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
+				return new EntityGrenadeTau(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
+			}
+		});
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_lemon, new BehaviorProjectileDispense() {
+
+			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
+				return new EntityGrenadeLemon(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
+			}
+		});
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_mk2, new BehaviorProjectileDispense() {
+
+			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
+				return new EntityGrenadeMk2(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
+			}
+		});
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_aschrab, new BehaviorProjectileDispense() {
+
+			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
+				return new EntityGrenadeASchrab(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
+			}
+		});
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_zomg, new BehaviorProjectileDispense() {
+
+			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
+				return new EntityGrenadeZOMG(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
+			}
+		});
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_shrapnel, new BehaviorProjectileDispense() {
+
+			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
+				return new EntityGrenadeShrapnel(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
+			}
+		});
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_black_hole, new BehaviorProjectileDispense() {
+
+			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
+				return new EntityGrenadeBlackHole(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
+			}
+		});
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_gascan, new BehaviorProjectileDispense() {
+
+			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
+				return new EntityGrenadeGascan(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
+			}
+		});
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_cloud, new BehaviorProjectileDispense() {
+
+			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
+				return new EntityGrenadeCloud(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
+			}
+		});
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_pink_cloud, new BehaviorProjectileDispense() {
+
+			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
+				return new EntityGrenadePC(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
+			}
+		});
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_smart, new BehaviorProjectileDispense() {
+
+			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
+				return new EntityGrenadeSmart(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
+			}
+		});
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_mirv, new BehaviorProjectileDispense() {
+
+			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
+				return new EntityGrenadeMIRV(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
+			}
+		});
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_breach, new BehaviorProjectileDispense() {
+
+			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
+				return new EntityGrenadeBreach(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
+			}
+		});
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_burst, new BehaviorProjectileDispense() {
+
+			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
+				return new EntityGrenadeBurst(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
+			}
+		});
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_if_generic, new BehaviorProjectileDispense() {
+
+			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
+				return new EntityGrenadeIFGeneric(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
+			}
+		});
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_if_he, new BehaviorProjectileDispense() {
+
+			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
+				return new EntityGrenadeIFHE(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
+			}
+		});
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_if_bouncy, new BehaviorProjectileDispense() {
+
+			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
+				return new EntityGrenadeIFBouncy(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
+			}
+		});
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_if_sticky, new BehaviorProjectileDispense() {
+
+			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
+				return new EntityGrenadeIFSticky(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
+			}
+		});
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_if_impact, new BehaviorProjectileDispense() {
+
+			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
+				return new EntityGrenadeIFImpact(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
+			}
+		});
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_if_incendiary, new BehaviorProjectileDispense() {
+
+			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
+				return new EntityGrenadeIFIncendiary(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
+			}
+		});
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_if_toxic, new BehaviorProjectileDispense() {
+
+			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
+				return new EntityGrenadeIFToxic(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
+			}
+		});
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_if_concussion, new BehaviorProjectileDispense() {
+
+			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
+				return new EntityGrenadeIFConcussion(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
+			}
+		});
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_if_brimstone, new BehaviorProjectileDispense() {
+
+			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
+				return new EntityGrenadeIFBrimstone(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
+			}
+		});
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_if_mystery, new BehaviorProjectileDispense() {
+
+			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
+				return new EntityGrenadeIFMystery(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
+			}
+		});
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_if_spark, new BehaviorProjectileDispense() {
+
+			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
+				return new EntityGrenadeIFSpark(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
+			}
+		});
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_if_hopwire, new BehaviorProjectileDispense() {
+
+			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
+				return new EntityGrenadeIFHopwire(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
+			}
+		});
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_if_null, new BehaviorProjectileDispense() {
+
+			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
+				return new EntityGrenadeIFNull(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
+			}
+		});
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.nuclear_waste_pearl, new BehaviorProjectileDispense() {
+
+			protected IProjectile getProjectileEntity(World world, IPosition position) {
+				return new EntityWastePearl(world, position.getX(), position.getY(), position.getZ());
+			}
+		});
 	}
 }
