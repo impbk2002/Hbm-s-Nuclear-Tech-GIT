@@ -20,30 +20,28 @@ buildscript {
 
 apply plugin: 'java'
 apply plugin: 'forge'
-sourceCompatibility = JavaVersion.VERSION_1_8
-targetCompatibility = JavaVersion.VERSION_1_8
-sourceCompatibility = '1.8'
-targetCompatibility = '1.8'
-
 compileJava.options.encoding = 'UTF-8'
-tasks.withType(JavaCompile){
-	options.encoding = 'UTF-8'
+sourceCompatibility = version_java
+targetCompatibility = version_java
+
+ext.version_mod = "${version_mod_major}.${version_mod_minor}-${version_mod_revis}"
+version = ext.version_mod
+//version = "${version_minecraft}-${version_mod}"
+configurations {
+    compile.extendsFrom exportedCompile
 }
 
-file "build.properties" withReader {
-    def prop = new Properties()
-    prop.load(it)
-    ext.config = new ConfigSlurper().parse prop
-}
-
-
-version = "${config.hbm.version}"
-group= "com" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+group= "com.hbm" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "hbm"
 
 minecraft {
-    version = "${config.minecraft.version}-${config.forge.version}-${config.minecraft.version}"
+    version = "${version_minecraft}-${version_forge}-${version_minecraft}"
     runDir = "eclipse"
+	replaceIn "lib/RefStrings.java"
+	replace "@MINECRAFT@", version_minecraft
+    replace "@MAJOR@", version_mod_major
+    replace "@MINOR@", version_mod_minor
+    replace "@REVIS@", version_mod_revis
 }
 
 // configure  the source folders
@@ -88,9 +86,9 @@ repositories {
 
 dependencies {
 
-    compile "codechicken:CodeChickenLib:${config.minecraft.version}-${config.codechickenlib.version}:dev"
-    compile "codechicken:CodeChickenCore:${config.minecraft.version}-${config.codechickencore.version}:dev"
-    compile "codechicken:NotEnoughItems:${config.minecraft.version}-${config.nei.version}:dev"
+	compile "codechicken:CodeChickenLib:${version_minecraft}-${version_codeChickenLib}:dev"
+    compile "codechicken:CodeChickenCore:${version_minecraft}-${version_codeChickenCore}:dev"
+    compile "codechicken:NotEnoughItems:${version_minecraft}-${version_nei}:dev"
 	
 	// use this if ncessary
 	 //   compile fileTree(dir: 'libs', include: '*.jar')
