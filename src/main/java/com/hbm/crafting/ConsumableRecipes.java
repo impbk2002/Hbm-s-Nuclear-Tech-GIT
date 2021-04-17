@@ -132,6 +132,7 @@ public class ConsumableRecipes {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.cladding_lead, 1), new Object[] { "DPD", "PRP", "DPD", 'R', ModItems.cladding_rubber, 'P', "plateLead", 'D', ModItems.ducttape }));
 		GameRegistry.addRecipe(new ItemStack(ModItems.cladding_desh, 1), new Object[] { "DPD", "PRP", "DPD", 'R', ModItems.cladding_lead, 'P', ModItems.plate_desh, 'D', ModItems.ducttape });
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.cladding_obsidian, 1), new Object[] { "OOO", "PDP", "OOO", 'O', Blocks.obsidian, 'P', "plateSteel", 'D', ModItems.ducttape }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.cladding_iron, 1), new Object[] { "OOO", "PDP", "OOO", 'O', "plateIron", 'P', ModItems.plate_polymer, 'D', ModItems.ducttape }));
 		
 		//Inserts
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.insert_steel, 1), new Object[] { "DPD", "PSP", "DPD", 'D', ModItems.ducttape, 'P', "plateIron", 'S', "blockSteel" }));
@@ -150,6 +151,7 @@ public class ConsumableRecipes {
 		
 		//Helmet Mods
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.attachment_mask, 1), new Object[] { "DID", "IGI", " F ", 'D', ModItems.ducttape, 'I', ModItems.plate_polymer, 'G', "paneGlass", 'F', ModItems.gas_mask_filter }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.attachment_mask_mono, 1), new Object[] { "DID", "IGI", " F ", 'D', ModItems.ducttape, 'I', ModItems.plate_polymer, 'G', "paneGlass", 'F', ModItems.gas_mask_filter_mono }));
 		
 		//Boot Mods
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.pads_rubber, 1), new Object[] { "P P", "IDI", "P P", 'P', ModItems.plate_polymer, 'I', "plateIron", 'D', ModItems.ducttape }));

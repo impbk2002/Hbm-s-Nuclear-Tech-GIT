@@ -8,9 +8,11 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.entity.mob.EntityHunterChopper;
 import com.hbm.entity.projectile.EntityChopperMine;
 import com.hbm.extprop.HbmLivingProps;
+import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.handler.ArmorModHandler;
 import com.hbm.handler.HTTPHandler;
 import com.hbm.handler.HazmatRegistry;
+import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.interfaces.IHoldableWeapon;
 import com.hbm.interfaces.IItemHUD;
 import com.hbm.interfaces.Spaghetti;
@@ -26,6 +28,7 @@ import com.hbm.lib.Library;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.AuxButtonPacket;
 import com.hbm.packet.GunButtonPacket;
+import com.hbm.packet.KeybindPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.render.anim.HbmAnimations;
 import com.hbm.render.anim.HbmAnimations.Animation;
@@ -41,6 +44,7 @@ import com.hbm.sound.MovingSoundXVL1456;
 import com.hbm.tileentity.bomb.TileEntityNukeCustom;
 import com.hbm.tileentity.bomb.TileEntityNukeCustom.CustomNukeEntry;
 import com.hbm.tileentity.bomb.TileEntityNukeCustom.EnumEntryType;
+import com.hbm.tileentity.machine.rbmk.TileEntityRBMKBase;
 import com.hbm.util.I18nUtil;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture.Type;
 import com.hbm.sound.MovingSoundPlayerLoop.EnumHbmSound;
@@ -100,6 +104,11 @@ public class ModEventHandlerClient {
 					RenderScreenOverlay.renderRadCounter(event.resolution, rads, Minecraft.getMinecraft().ingameGUI);
 				}
 			}
+		}
+
+		/// DODD DIAG HOOK FOR RBMK
+		if(event.type == ElementType.CROSSHAIRS) {
+			TileEntityRBMKBase.diagnosticPrintHook(event);
 		}
 		
 		/// HANLDE ANIMATION BUSES ///
@@ -261,6 +270,24 @@ public class ModEventHandlerClient {
 		}
 	}
 	
+	//just finish this somewhen i guess
+	/*@SubscribeEvent
+	public void keybindEvent(RenderPlayerEvent.Pre event) {
+		
+		HbmPlayerProps props = HbmPlayerProps.getData(Minecraft.getMinecraft().thePlayer);
+		
+		for(EnumKeybind key : EnumKeybind.values()) {
+			
+			boolean last = props.getKeyPressed(key);
+			boolean current = MainRegistry.proxy.getIsKeyPressed(key);
+	
+			if(last != current) {
+				PacketDispatcher.wrapper.sendToServer(new KeybindPacket(key, current));
+				props.setKeyPressed(key, current);
+			}
+		}
+	}*/
+	
 	@SubscribeEvent
 	public void onRenderArmorEvent(RenderPlayerEvent.SetArmorModel event) {
 		
@@ -379,14 +406,14 @@ public class ModEventHandlerClient {
 	}
 	
 	@SubscribeEvent
-    public void drawTooltip(ItemTooltipEvent event) {
+	public void drawTooltip(ItemTooltipEvent event) {
 		
 		ItemStack stack = event.itemStack;
 		List<String> list = event.toolTip;
 		
-		float rad = HazmatRegistry.getResistance(stack);
+		double rad = HazmatRegistry.getResistance(stack);
 		
-		rad = ((int)(rad * 1000)) / 1000F;
+		rad = ((int)(rad * 1000)) / 1000D;
 		
 		if(rad > 0)
 			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.radResistance", rad));

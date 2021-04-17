@@ -1,13 +1,20 @@
 package com.hbm.util;
 
+import com.hbm.entity.mob.EntityNuclearCreeper;
+import com.hbm.entity.mob.EntityQuackos;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.handler.HazmatRegistry;
+import com.hbm.lib.ModDamageSource;
 import com.hbm.potion.HbmPotion;
 import com.hbm.saveddata.RadiationSavedData;
 
 import api.hbm.entity.IRadiationImmune;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.monster.EntitySkeleton;
+import net.minecraft.entity.monster.EntityZombie;
+import net.minecraft.entity.passive.EntityMooshroom;
+import net.minecraft.entity.passive.EntityOcelot;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
@@ -24,14 +31,11 @@ public class ContaminationUtil {
 	 * @return
 	 */
 	public static float calculateRadiationMod(EntityLivingBase entity) {
-
-		if(entity.isPotionActive(HbmPotion.mutation))
-			return 0;
 		
 		if(entity instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer)entity;
 			
-			float koeff = 5.0F;
+			float koeff = 10.0F;
 			return (float) Math.pow(koeff, -HazmatRegistry.getResistance(player));
 		}
 		
@@ -44,7 +48,7 @@ public class ContaminationUtil {
 		if(!(e instanceof EntityLivingBase))
 			return;
 
-		if(e instanceof IRadiationImmune)
+		if(isRadImmune(e))
 			return;
 		
 		if(e instanceof EntityPlayer && ((EntityPlayer)e).capabilities.isCreativeMode)
@@ -65,16 +69,13 @@ public class ContaminationUtil {
 		if(!(e instanceof EntityLivingBase))
 			return;
 
-		if(e instanceof IRadiationImmune)
+		if(isRadImmune(e))
 			return;
 		
 		if(e instanceof EntityPlayer && ((EntityPlayer)e).capabilities.isCreativeMode)
 			return;
 		
 		EntityLivingBase entity = (EntityLivingBase)e;
-		
-		if(entity.isPotionActive(HbmPotion.mutation))
-			return;
 
 		HbmLivingProps.incrementRadiation(entity, f);
 	}
@@ -84,7 +85,7 @@ public class ContaminationUtil {
 		if(!(e instanceof EntityLivingBase))
 			return 0.0F;
 
-		if(e instanceof IRadiationImmune)
+		if(isRadImmune(e))
 			return 0.0F;
 		
 		EntityLivingBase entity = (EntityLivingBase)e;
@@ -92,13 +93,24 @@ public class ContaminationUtil {
 		return HbmLivingProps.getRadiation(entity);
 	}
 	
+	public static boolean isRadImmune(Entity e) {
+
+		if(e instanceof EntityLivingBase && ((EntityLivingBase)e).isPotionActive(HbmPotion.mutation))
+			return true;
+		
+		return e instanceof EntityNuclearCreeper ||
+				e instanceof EntityMooshroom ||
+				e instanceof EntityZombie ||
+				e instanceof EntitySkeleton ||
+				e instanceof EntityQuackos ||
+				e instanceof EntityOcelot ||
+				e instanceof IRadiationImmune;
+	}
+	
 	/// ASBESTOS ///
 	public static void applyAsbestos(Entity e, int i) {
 
 		if(!(e instanceof EntityLivingBase))
-			return;
-
-		if(e instanceof IRadiationImmune)
 			return;
 		
 		if(e instanceof EntityPlayer && ((EntityPlayer)e).capabilities.isCreativeMode)
@@ -221,5 +233,63 @@ public class ContaminationUtil {
 		player.addChatMessage(new ChatComponentTranslation("digamma.playerDigamma").appendSibling(new ChatComponentText(EnumChatFormatting.RED + " " + digamma + " DRX")).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.LIGHT_PURPLE)));
 		player.addChatMessage(new ChatComponentTranslation("digamma.playerHealth").appendSibling(new ChatComponentText(EnumChatFormatting.RED + " " + halflife + "%")).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.LIGHT_PURPLE)));
 		player.addChatMessage(new ChatComponentTranslation("digamma.playerRes").appendSibling(new ChatComponentText(EnumChatFormatting.BLUE + " " + "N/A")).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.LIGHT_PURPLE)));
+	}
+	
+	public static enum HazardType {
+		MONOXIDE,
+		RADIATION,
+		ASBESTOS,
+		DIGAMMA
+	}
+	
+	public static enum ContaminationType {
+		GAS,				//filterable by gas mask
+		GAS_NON_REACTIVE,	//not filterable by gas mask
+		GOGGLES,			//preventable by goggles
+		FARADAY,			//preventable by metal armor
+		HAZMAT,				//preventable by hazmat
+		HAZMAT2,			//preventable by heavy hazmat
+		DIGAMMA,			//preventable by fau armor or stability
+		DIGAMMA2,			//preventable by robes
+		CREATIVE,			//preventable by creative mode
+		NONE				//not preventable
+	}
+	
+	@SuppressWarnings("incomplete-switch") //just shut up
+	public static boolean contaminate(EntityLivingBase entity, HazardType hazard, ContaminationType cont, float amount) {
+		
+		if(entity instanceof EntityPlayer) {
+			
+			EntityPlayer player = (EntityPlayer)entity;
+			
+			switch(cont) {
+			case GAS:				if(ArmorUtil.checkForGasMask(player))	return false; break;
+			case GAS_NON_REACTIVE:	if(ArmorUtil.checkForMonoMask(player))	return false; break;
+			case GOGGLES:			if(ArmorUtil.checkForGoggles(player))	return false; break;
+			case FARADAY:			if(ArmorUtil.checkForFaraday(player))	return false; break;
+			case HAZMAT:			if(ArmorUtil.checkForHazmat(player))	return false; break;
+			case HAZMAT2:			if(ArmorUtil.checkForHaz2(player))		return false; break;
+			case DIGAMMA:			if(ArmorUtil.checkForDigamma(player))	return false; break;
+			case DIGAMMA2: break;
+			}
+			
+			if(player.capabilities.isCreativeMode && cont != ContaminationType.NONE)
+				return false;
+			
+			if(player.ticksExisted < 200)
+				return false;
+		}
+		
+		if(hazard == HazardType.RADIATION && isRadImmune(entity))
+			return false;
+		
+		switch(hazard) {
+		case MONOXIDE: entity.attackEntityFrom(ModDamageSource.monoxide, amount); break;
+		case RADIATION: HbmLivingProps.incrementRadiation(entity, amount * calculateRadiationMod(entity)); break;
+		case ASBESTOS: HbmLivingProps.incrementAsbestos(entity, (int)amount); break;
+		case DIGAMMA: HbmLivingProps.incrementDigamma(entity, amount); break;
+		}
+		
+		return true;
 	}
 }

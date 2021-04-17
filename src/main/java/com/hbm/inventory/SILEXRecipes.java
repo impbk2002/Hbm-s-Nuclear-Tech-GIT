@@ -3,6 +3,8 @@ package com.hbm.inventory;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
@@ -10,17 +12,13 @@ import com.hbm.util.WeightedRandomObject;
 
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary;
 
 public class SILEXRecipes {
 	
 	private static HashMap<Object, SILEXRecipe> recipes = new HashMap();
 	
 	public static void register() {
-		
-		recipes.put("ingotSteel", new SILEXRecipe(100, 100)
-				.addOut(new WeightedRandomObject(new ItemStack(Items.iron_ingot), 1))
-				.addOut(new WeightedRandomObject(new ItemStack(Items.coal), 1))
-				);
 		
 		recipes.put("ingotUranium", new SILEXRecipe(900, 100)
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_u235), 1))
@@ -49,6 +47,12 @@ public class SILEXRecipes {
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_uranium), 2))
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_plutonium), 2))
 				);
+		
+		recipes.put(new ComparableStack(Items.dye, 1, 4), new SILEXRecipe(100, 100)
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.sulfur), 4))
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_aluminium), 3))
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_cobalt), 3))
+				);
 	}
 	
 	public static SILEXRecipe getOutput(ItemStack stack) {
@@ -70,6 +74,23 @@ public class SILEXRecipes {
 		}
 		
 		return null;
+	}
+
+	public static Map<Object, SILEXRecipe> getRecipes() {
+		
+		Map<Object, SILEXRecipe> recipes = new HashMap<Object, SILEXRecipe>();
+		
+		for(Entry<Object, SILEXRecipe> entry : SILEXRecipes.recipes.entrySet()) {
+			
+			if(entry.getKey() instanceof String) {
+				List<ItemStack> ingredients = OreDictionary.getOres((String)entry.getKey());
+				recipes.put(ingredients, entry.getValue());
+			} else {
+				recipes.put(((ComparableStack)entry.getKey()).toStack(), entry.getValue());
+			}
+		}
+		
+		return recipes;
 	}
 	
 	public static class SILEXRecipe {

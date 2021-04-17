@@ -48,9 +48,11 @@ import com.hbm.potion.HbmPotion;
 import com.hbm.saveddata.AuxSavedData;
 import com.hbm.saveddata.RadiationSavedData;
 import com.hbm.util.ArmorUtil;
+import com.hbm.util.ContaminationUtil;
 import com.hbm.util.EnchantmentUtil;
 import com.hbm.world.generator.TimedGenerator;
 
+import api.hbm.entity.IRadiationImmune;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
@@ -487,11 +489,7 @@ public class ModEventHandler
 							continue;
 			        	}
 						
-						if(eRad < 200 || entity instanceof EntityNuclearCreeper ||
-								entity instanceof EntityMooshroom ||
-								entity instanceof EntityZombie ||
-								entity instanceof EntitySkeleton ||
-								entity instanceof EntityQuackos)
+						if(eRad < 200 || ContaminationUtil.isRadImmune(entity))
 							continue;
 						
 						if(eRad > 2500)
@@ -575,15 +573,18 @@ public class ModEventHandler
 			event.setCanceled(true);
 		}
 		
-		ArmorFSB.handleAttack(event);
+		if(e instanceof EntityPlayer && ((EntityPlayer)e).inventory.armorInventory[2] != null && ((EntityPlayer)e).inventory.armorInventory[2].getItem() instanceof ArmorFSB)
+			((ArmorFSB)((EntityPlayer)e).inventory.armorInventory[2].getItem()).handleAttack(event);
 	}
 	
 	@SubscribeEvent
 	public void onEntityDamaged(LivingHurtEvent event) {
 		
+		EntityLivingBase e = event.entityLiving;
+		
 		for(int i = 1; i < 5; i++) {
 			
-			ItemStack armor = event.entityLiving.getEquipmentInSlot(i);
+			ItemStack armor = e.getEquipmentInSlot(i);
 			
 			if(armor != null && ArmorModHandler.hasMods(armor)) {
 				
@@ -596,27 +597,35 @@ public class ModEventHandler
 			}
 		}
 		
-		ArmorFSB.handleHurt(event);
+		if(e instanceof EntityPlayer && ((EntityPlayer)e).inventory.armorInventory[2] != null && ((EntityPlayer)e).inventory.armorInventory[2].getItem() instanceof ArmorFSB)
+			((ArmorFSB)((EntityPlayer)e).inventory.armorInventory[2].getItem()).handleHurt(event);
 	}
 	
 	@SubscribeEvent
 	public void onPlayerFall(PlayerFlyableFallEvent event) {
 		
-		ArmorFSB.handleFall(event.entityPlayer);
+		EntityPlayer e = event.entityPlayer;
+		
+		if(e.inventory.armorInventory[2] != null && e.inventory.armorInventory[2].getItem() instanceof ArmorFSB)
+			((ArmorFSB)e.inventory.armorInventory[2].getItem()).handleFall(e);
 	}
 	
 	@SubscribeEvent
 	public void onEntityJump(LivingJumpEvent event) {
 		
-		if(event.entityLiving instanceof EntityPlayer)
-			ArmorFSB.handleJump((EntityPlayer) event.entityLiving);
+		EntityLivingBase e = event.entityLiving;
+		
+		if(e instanceof EntityPlayer && ((EntityPlayer)e).inventory.armorInventory[2] != null && ((EntityPlayer)e).inventory.armorInventory[2].getItem() instanceof ArmorFSB)
+			((ArmorFSB)((EntityPlayer)e).inventory.armorInventory[2].getItem()).handleJump((EntityPlayer)e);
 	}
 	
 	@SubscribeEvent
 	public void onEntityFall(LivingFallEvent event) {
 		
-		if(event.entityLiving instanceof EntityPlayer)
-			ArmorFSB.handleFall((EntityPlayer) event.entityLiving);
+		EntityLivingBase e = event.entityLiving;
+		
+		if(e instanceof EntityPlayer && ((EntityPlayer)e).inventory.armorInventory[2] != null && ((EntityPlayer)e).inventory.armorInventory[2].getItem() instanceof ArmorFSB)
+			((ArmorFSB)((EntityPlayer)e).inventory.armorInventory[2].getItem()).handleFall((EntityPlayer)e);
 	}
 	
 	@SubscribeEvent
@@ -624,7 +633,8 @@ public class ModEventHandler
 		
 		EntityPlayer player = event.player;
 		
-		ArmorFSB.handleTick(event);
+		if(player.inventory.armorInventory[2] != null && player.inventory.armorInventory[2].getItem() instanceof ArmorFSB)
+			((ArmorFSB)player.inventory.armorInventory[2].getItem()).handleTick(event);
 		
 		if(player.ticksExisted == 100 || player.ticksExisted == 200)
 			CraftingManager.crumple();

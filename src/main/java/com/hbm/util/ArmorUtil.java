@@ -85,6 +85,7 @@ public class ArmorUtil {
 	public static boolean checkForHaz2(EntityPlayer player) {
 		
 		if(checkArmor(player, ModItems.hazmat_paa_helmet, ModItems.hazmat_paa_plate, ModItems.hazmat_paa_legs, ModItems.hazmat_paa_boots) || 
+				checkArmor(player, ModItems.liquidator_helmet, ModItems.liquidator_plate, ModItems.liquidator_legs, ModItems.liquidator_boots) || 
 				checkArmor(player, ModItems.euphemium_helmet, ModItems.euphemium_plate, ModItems.euphemium_legs, ModItems.euphemium_boots))
 		{
 			return true;
@@ -96,19 +97,18 @@ public class ArmorUtil {
 	public static boolean checkForAsbestos(EntityPlayer player) {
 		
 		if(checkArmor(player, ModItems.asbestos_helmet, ModItems.asbestos_plate, ModItems.asbestos_legs, ModItems.asbestos_boots))
-		{
 			return true;
-		}
-		
+
 		return false;
 	}
 	
 	public static boolean checkForDigamma(EntityPlayer player) {
 		
 		if(checkArmor(player, ModItems.fau_helmet, ModItems.fau_plate, ModItems.fau_legs, ModItems.fau_boots))
-		{
 			return true;
-		}
+		
+		if(player.isPotionActive(HbmPotion.stability.id))
+			return true; 
 		
 		return false;
 	}
@@ -119,10 +119,7 @@ public class ArmorUtil {
 		
 		if(armor[0] == null || armor[1] == null || armor[2] == null || armor[3] == null) return false;
 		
-		if(isFaradayArmor(armor[0]) &&
-				isFaradayArmor(armor[1]) &&
-				isFaradayArmor(armor[2]) &&
-				isFaradayArmor(armor[3]))
+		if(isFaradayArmor(armor[0]) && isFaradayArmor(armor[1]) && isFaradayArmor(armor[2]) && isFaradayArmor(armor[3]))
 			return true;
 		
 		return false;
@@ -136,6 +133,7 @@ public class ArmorUtil {
 			"platinum",
 			"tin",
 			"lead",
+			"liquidator",
 			"schrabidium",
 			"euphemium",
 			"steel",
@@ -189,6 +187,10 @@ public class ArmorUtil {
 		{
 			return true;
 		}
+		if(checkArmorPiece(player, ModItems.liquidator_helmet, 3))
+		{
+			return true;
+		}
 		if(checkArmorPiece(player, ModItems.gas_mask, 3))
 		{
 			return true;
@@ -233,6 +235,29 @@ public class ArmorUtil {
 		return false;
 	}
 	
+	public static boolean checkForMonoMask(EntityPlayer player) {
+
+		if(checkArmorPiece(player, ModItems.gas_mask_mono, 3))
+			return true;
+		
+		if(checkArmorPiece(player, ModItems.liquidator_helmet, 3))
+			return true;
+
+		if(player.isPotionActive(HbmPotion.mutation))
+			return true;
+		
+		ItemStack helmet = player.getCurrentArmor(3);
+		if(helmet != null && ArmorModHandler.hasMods(helmet)) {
+			
+			ItemStack mods[] = ArmorModHandler.pryMods(helmet);
+			
+			if(mods[ArmorModHandler.helmet_only] != null && mods[ArmorModHandler.helmet_only].getItem() == ModItems.attachment_mask_mono)
+				return true;
+		}
+		
+		return false;
+	}
+	
 	public static boolean checkForGoggles(EntityPlayer player) {
 
 		if(checkArmorPiece(player, ModItems.goggles, 3))
@@ -244,6 +269,10 @@ public class ArmorUtil {
 			return true;
 		}
 		if(checkArmorPiece(player, ModItems.hazmat_helmet_grey, 3))
+		{
+			return true;
+		}
+		if(checkArmorPiece(player, ModItems.liquidator_helmet, 3))
 		{
 			return true;
 		}

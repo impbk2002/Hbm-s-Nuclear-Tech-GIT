@@ -3,25 +3,23 @@ package com.hbm.items.special;
 import java.util.List;
 
 import com.hbm.interfaces.IItemHazard;
-import com.hbm.inventory.BreederRecipes;
 import com.hbm.modules.ItemHazardModule;
-import com.hbm.util.ArmorUtil;
-import com.hbm.util.ContaminationUtil;
-import com.hbm.util.I18nUtil;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
 public class ItemHazard extends ItemCustomLore implements IItemHazard {
 
+	//CO60		             5a		α	030.00Rad/s	Spicy
+	//I181		           192h		α	150.00Rad/s	2 much spice :(
+	//CS137		            30a		α	020.00Rad/s	Spicy
 	//AU192		            64h		α	500.00Rad/s	2 much spice :(
-	//PO210		           138d		α	025.00Rad/s	Spicy
+	//AT209		             5h		α	like 2k or sth idk bruv
+	//PO210		           138d		α	075.00Rad/s	Spicy
 	//TH232		14,000,000,000a		α	000.10Rad/s
 	//U233		       160,000a		α	005.00Rad/s
 	//U235		   700,000,000a		α	001.00Rad/s
@@ -31,8 +29,12 @@ public class ItemHazard extends ItemCustomLore implements IItemHazard {
 	//PU239		        24,000a		α	005.00Rad/s
 	//PU240		         6,600a		α	007.50Rad/s
 
+	public static final float co60 = 30.0F;
+	public static final float i131 = 150.0F;
+	public static final float cs137 = 20.0F;
 	public static final float au198 = 500.0F;
-	public static final float po210 = 25.0F;
+	public static final float at209 = 2000.0F;
+	public static final float po210 = 75.0F;
 	public static final float th232 = 0.1F;
 	public static final float thf = 1.75F;
 	public static final float u = 0.35F;
@@ -41,6 +43,7 @@ public class ItemHazard extends ItemCustomLore implements IItemHazard {
 	public static final float u238 = 0.25F;
 	public static final float uf = 0.5F;
 	public static final float np237 = 2.5F;
+	public static final float npf = 1.5F;
 	public static final float pu = 7.5F;
 	public static final float purg = 6.25F;
 	public static final float pu238 = 10.0F;
@@ -55,6 +58,7 @@ public class ItemHazard extends ItemCustomLore implements IItemHazard {
 	public static final float sr = sa326 * 0.1F;
 	public static final float trx = 25.0F;
 	public static final float trn = 0.1F;
+	public static final float wst = 15.0F;
 	public static final float yc = u;
 	public static final float fo = 10F;
 
@@ -92,6 +96,13 @@ public class ItemHazard extends ItemCustomLore implements IItemHazard {
 		
 		super.addInformation(stack, player, list, bool);
 		this.module.addInformation(stack, player, list, bool);
+	}
+	
+	@Override
+	public boolean onEntityItemUpdate(EntityItem item) {
+		
+		super.onEntityItemUpdate(item);
+		return this.module.onEntityItemUpdate(item);
 	}
 	
 	/*

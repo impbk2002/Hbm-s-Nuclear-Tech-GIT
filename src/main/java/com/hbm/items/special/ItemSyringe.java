@@ -5,6 +5,7 @@ import java.util.Random;
 
 import com.hbm.config.VersatileConfig;
 import com.hbm.handler.ArmorModHandler;
+import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IPartiallyFillable;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.ItemGunBase;
@@ -262,6 +263,18 @@ public class ItemSyringe extends Item {
 			}
 		}
 
+		if(this == ModItems.gas_mask_filter_mono && player.inventory.armorInventory[3] != null && player.inventory.armorInventory[3].getItem() == ModItems.gas_mask_mono) {
+			if(!world.isRemote) {
+				if(player.inventory.armorInventory[3].getItemDamage() == 0)
+					return stack;
+
+				player.inventory.armorInventory[3].setItemDamage(0);
+
+				world.playSoundAtEntity(player, "hbm:item.gasmaskScrew", 1.0F, 1.0F);
+				stack.stackSize--;
+			}
+		}
+
 		if(this == ModItems.jetpack_tank && player.inventory.armorInventory[2] != null) {
 
 			if(!world.isRemote) {
@@ -279,6 +292,10 @@ public class ItemSyringe extends Item {
 					return stack;
 
 				IPartiallyFillable fillable = (IPartiallyFillable) jetpack.getItem();
+				
+				if(fillable.getType(jetpack) != FluidType.KEROSENE)
+					return stack;
+				
 				int fill = Math.min(fillable.getFill(jetpack) + 1000, fillable.getMaxFill(jetpack));
 				fillable.setFill(jetpack, fill);
 				
@@ -364,9 +381,10 @@ public class ItemSyringe extends Item {
 	public boolean hitEntity(ItemStack stack, EntityLivingBase entity, EntityLivingBase entityPlayer) {
 		World world = entity.worldObj;
 
-		if(this == ModItems.syringe_antidote) {
+		if(this == ModItems.syringe_antidote && !VersatileConfig.hasPotionSickness(entity)) {
 			if(!world.isRemote) {
 				entity.clearActivePotions();
+				VersatileConfig.applyPotionSickness(entity, 5);
 
 				stack.stackSize--;
 				world.playSoundAtEntity(entity, "hbm:item.syringe", 1.0F, 1.0F);
@@ -380,7 +398,7 @@ public class ItemSyringe extends Item {
 			}
 		}
 
-		if(this == ModItems.syringe_awesome) {
+		if(this == ModItems.syringe_awesome && !VersatileConfig.hasPotionSickness(entity)) {
 			if(!world.isRemote) {
 				entity.addPotionEffect(new PotionEffect(Potion.regeneration.id, 50 * 20, 9));
 				entity.addPotionEffect(new PotionEffect(Potion.resistance.id, 50 * 20, 9));
@@ -392,6 +410,7 @@ public class ItemSyringe extends Item {
 				entity.addPotionEffect(new PotionEffect(Potion.field_76434_w.id, 50 * 20, 9));
 				entity.addPotionEffect(new PotionEffect(Potion.field_76444_x.id, 50 * 20, 4));
 				entity.addPotionEffect(new PotionEffect(Potion.confusion.id, 5 * 20, 4));
+				VersatileConfig.applyPotionSickness(entity, 50);
 
 				stack.stackSize--;
 				world.playSoundAtEntity(entity, "hbm:item.syringe", 1.0F, 1.0F);
@@ -421,9 +440,10 @@ public class ItemSyringe extends Item {
 			}
 		}
 
-		if(this == ModItems.syringe_metal_stimpak) {
+		if(this == ModItems.syringe_metal_stimpak && !VersatileConfig.hasPotionSickness(entity)) {
 			if(!world.isRemote) {
 				entity.heal(5);
+				VersatileConfig.applyPotionSickness(entity, 5);
 
 				stack.stackSize--;
 				world.playSoundAtEntity(entity, "hbm:item.syringe", 1.0F, 1.0F);
@@ -437,9 +457,10 @@ public class ItemSyringe extends Item {
 			}
 		}
 
-		if(this == ModItems.syringe_metal_medx) {
+		if(this == ModItems.syringe_metal_medx && !VersatileConfig.hasPotionSickness(entity)) {
 			if(!world.isRemote) {
 				entity.addPotionEffect(new PotionEffect(Potion.resistance.id, 4 * 60 * 20, 2));
+				VersatileConfig.applyPotionSickness(entity, 5);
 
 				stack.stackSize--;
 				world.playSoundAtEntity(entity, "hbm:item.syringe", 1.0F, 1.0F);
@@ -453,10 +474,11 @@ public class ItemSyringe extends Item {
 			}
 		}
 
-		if(this == ModItems.syringe_metal_psycho) {
+		if(this == ModItems.syringe_metal_psycho && !VersatileConfig.hasPotionSickness(entity)) {
 			if(!world.isRemote) {
 				entity.addPotionEffect(new PotionEffect(Potion.resistance.id, 2 * 60 * 20, 0));
 				entity.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 2 * 60 * 20, 0));
+				VersatileConfig.applyPotionSickness(entity, 5);
 
 				stack.stackSize--;
 				world.playSoundAtEntity(entity, "hbm:item.syringe", 1.0F, 1.0F);
@@ -470,10 +492,11 @@ public class ItemSyringe extends Item {
 			}
 		}
 
-		if(this == ModItems.syringe_metal_super) {
+		if(this == ModItems.syringe_metal_super && !VersatileConfig.hasPotionSickness(entity)) {
 			if(!world.isRemote) {
 				entity.heal(25);
 				entity.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 10 * 20, 0));
+				VersatileConfig.applyPotionSickness(entity, 15);
 
 				stack.stackSize--;
 				world.playSoundAtEntity(entity, "hbm:item.syringe", 1.0F, 1.0F);
@@ -563,6 +586,9 @@ public class ItemSyringe extends Item {
 		}
 		if(this == ModItems.gas_mask_filter) {
 			list.add("Repairs worn gas mask");
+		}
+		if(this == ModItems.gas_mask_filter_mono) {
+			list.add("Repairs worn monoxide mask");
 		}
 		if(this == ModItems.jetpack_tank) {
 			list.add("Fills worn jetpack with up to 1000mB of kerosene");
